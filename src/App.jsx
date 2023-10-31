@@ -7,6 +7,7 @@ import Header from './components/Nav';
 import { Container } from "react-bootstrap";
 // import Cats from './components/Cats';
 import CreateCat from "./components/CreateCat";
+import Cats from './components/Cats';
 
 let VITE_APP_SERVER = import.meta.env.VITE_APP_SERVER;
 // console.log('server',VITE_APP_SERVER);
@@ -26,7 +27,7 @@ class App extends React.Component {
     try {
       //we need to call the server to get cats from the Database
       let results = await axios.get(`${VITE_APP_SERVER}/cats`);
-      console.log('what happened! ',results);
+      // console.log('what happened! ',results);
       this.setState({
         cats: results.data,
       })
@@ -47,7 +48,7 @@ let newCat = {
   location:event.target.location.value,
   spayNeuter:event.target.spayneuter.checked,
 }
-console.log('new cat?', newCat);
+// console.log('new cat?', newCat);
 this.postCats(newCat);
 }
 
@@ -57,9 +58,12 @@ postCats = async (newCatObject) => {
 try {
   let url = `${VITE_APP_SERVER}/cats`;
   let createdCat = await axios.post(url, newCatObject);
-  console.log('!!!!!!!!',createdCat);
+  // console.log('!!!!!!!!',createdCat.data);
   // take the updated cat data and update state with it
   // spread operator [... take in all the stuff. ]
+  this.setState({
+    cats: [...this.state.cats, createdCat.data]
+  })
 } catch (error) {
   console.log('we have an error', error.response.data);
 }
@@ -77,13 +81,13 @@ try {
 // add delete to delete from the DB and then update state without the deleted cat.
 deleteCats = async (id) => {
 
-
+console.log('button click', id);
   try {
     let url = `${VITE_APP_SERVER}/cats/${id}`;
     await axios.delete(url);
     // that takes care of deleting cat through server to database 
     //we now need to remove the cat from state. so it does not render out after being deleted.
-    let updatedCats = this.state.filter(cat => cat._id != id);
+    let updatedCats = this.state.cats.filter(cat => cat._id != id);
     this.setState({
       cats: updatedCats
     });
@@ -106,6 +110,7 @@ deleteCats = async (id) => {
 
 
   render() {
+    console.log('CCCCC',this.state.cats);
     return (
       <>
       <Header />
@@ -113,12 +118,12 @@ deleteCats = async (id) => {
       <Container>World of Cats</Container>
       {/* we will have the create Cat form from its component */}
      <main>
-      {/* {
+      {
         this.state.cats.length > 0 && 
         <>
-          <Cats cat={this.state.cats} delete={this.deletCats} />
+          <Cats cats={this.state.cats} deleteCats={this.deleteCats} />
         </>
-      } */}
+      }
      </main>
 
 

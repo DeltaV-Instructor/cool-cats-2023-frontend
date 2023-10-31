@@ -20,7 +20,8 @@ class CreateCat extends React.Component {
             </Form.Group>
 
             <Form.Group controlId="location">
-              <Form.Check type="text" />
+            <Form.Label>Location</Form.Label>
+              <Form.Control type="text" />
             </Form.Group>
 
             <Form.Group controlId="spayneuter">
