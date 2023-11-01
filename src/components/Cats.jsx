@@ -43,7 +43,7 @@ class Cat extends Cats {
         <ListGroupItem>
           {this.props.cat.name} is {this.props.cat.color}
           <Button
-            variant="info"
+            variant="secondary"
             onClick={this.toggleModal}
             // onClick={() => this.props.updateCats(this.props.cat._id)}
           >
