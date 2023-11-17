@@ -1,30 +1,18 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx';
-import About from './components/About.jsx';
-import './css/index.css'
-import './css/App.css'
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import React from 'reactd';
+import { createRoot } from 'react-dom/client';
+import { Auth0Provider } from '@auth0/auth0-react';
+import App from './App';
 
-import {
-  createBrowserRouter,
-  RouterProvider,
-  createRoutesFromElements,
-  Route,
-} from "react-router-dom";
+const root = createRoot(document.getElementById('root'));
 
-// add browser router 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<App />} >
-      <Route path="/about" element={<About />} />
-    </Route>
-  )
-);
-
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    {/* <App /> */}
-    <RouterProvider router={router} />
-  </React.StrictMode>
+root.render(
+<Auth0Provider
+    domain="dev-818my7zr.us.auth0.com"
+    clientId="v5nxGFoD9Evpft9cTfZxOdTl5ur5Eu5h"
+    authorizationParams={{
+      redirect_uri: window.location.origin
+    }}
+  >
+    <App />
+  </Auth0Provider>,
 );
